@@ -1,0 +1,29 @@
+table.center{
+
+	text-align:center;
+}
+table.ta1 {
+  margin-left: auto;
+}
+#column1 {
+    border: 1px solid #bd1515;
+    background-color: #ffc5c5;
+}
+#column2 {
+    border: 1px solid #f27200;
+    background-color: #ffffff;
+}
+#column3 {
+    border: 1px solid #889100;
+    background-color: #f4ff42;
+}
+#column4 {
+    border: 1px solid #58b300;
+    background-color: #c5f09b;
+}
+
+.width{
+	margin: 10% 16%;
+	padding: 10% 15%;
+	width: 40%;
+}

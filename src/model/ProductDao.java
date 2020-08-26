@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class ProductDao {
@@ -15,6 +16,48 @@ public class ProductDao {
 	Connection cnct = null;
 	PreparedStatement pst = null;
 	ResultSet rs = null;
+	Statement st =null;
+
+	//全件取得
+	public ArrayList<ProductBean> all() {
+		ArrayList<ProductBean> productList = new ArrayList<ProductBean>();
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			cnct = DriverManager.getConnection(url, id, pw);
+			//キーワード検索
+			System.out.println("全件取得");
+			st = cnct.createStatement();
+			String sql = "select pro_cd,pro_name,pro_price,stock_no from product";
+			rs = st.executeQuery(sql);
+
+			while (rs.next()) {
+				ProductBean pBean = new ProductBean();
+				pBean.setProCd(rs.getInt("pro_cd"));
+				pBean.setProName(rs.getString("pro_name"));
+				pBean.setProPrice(rs.getInt("pro_price"));
+				pBean.setStock(rs.getInt("stock_no"));
+				productList.add(pBean);
+			}
+		} catch (ClassNotFoundException ex) {
+			ex.printStackTrace();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pst != null)
+					pst.close();
+				if (cnct != null)
+					cnct.close();
+			} catch (Exception ex) {
+			}
+		}
+
+		return productList;
+
+	}
 
 	//キーワード検索
 	public ArrayList<ProductBean> keywordSearch(String key) {
@@ -25,7 +68,7 @@ public class ProductDao {
 			cnct = DriverManager.getConnection(url, id, pw);
 			//キーワード検索
 			System.out.println("キーワード検索");
-			String sql = "select pro_cd,pro_name,pro_price from product where pro_name like ?";
+			String sql = "select pro_cd,pro_name,pro_price,stock_no from product where pro_name like ?";
 			pst = cnct.prepareStatement(sql);
 			pst.setString(1, "%" + key + "%");
 			rs = pst.executeQuery();
@@ -35,6 +78,7 @@ public class ProductDao {
 				pBean.setProCd(rs.getInt("pro_cd"));
 				pBean.setProName(rs.getString("pro_name"));
 				pBean.setProPrice(rs.getInt("pro_price"));
+				pBean.setStock(rs.getInt("stock_no"));
 				productList.add(pBean);
 			}
 		} catch (ClassNotFoundException ex) {
@@ -66,7 +110,7 @@ public class ProductDao {
 			cnct = DriverManager.getConnection(url, id, pw);
 			//カテゴリー検索
 			System.out.println("カテゴリー検索");
-			String sql = "select pro_cd,pro_name,pro_price from product where cat_id= ?";
+			String sql = "select pro_cd,pro_name,pro_price,stock_no from product where cat_id= ?";
 			pst = cnct.prepareStatement(sql);
 			pst.setInt(1, catid);
 			rs = pst.executeQuery();
@@ -76,6 +120,7 @@ public class ProductDao {
 				pBean.setProCd(rs.getInt("pro_cd"));
 				pBean.setProName(rs.getString("pro_name"));
 				pBean.setProPrice(rs.getInt("pro_price"));
+				pBean.setStock(rs.getInt("stock_no"));
 				productList.add(pBean);
 			}
 		} catch (ClassNotFoundException ex) {
@@ -107,7 +152,7 @@ public class ProductDao {
 			cnct = DriverManager.getConnection(url, id, pw);
 			System.out.println("両方検索");
 			//両方検索
-			String sql = "select pro_cd,pro_name,pro_price from product where pro_name like ? and cat_id= ?";
+			String sql = "select pro_cd,pro_name,pro_price,stock_no from product where pro_name like ? and cat_id= ?";
 			pst = cnct.prepareStatement(sql);
 			pst.setString(1, "%" + key + "%");
 			pst.setInt(2, catId);
@@ -118,6 +163,7 @@ public class ProductDao {
 				pBean.setProCd(rs.getInt("pro_cd"));
 				pBean.setProName(rs.getString("pro_name"));
 				pBean.setProPrice(rs.getInt("pro_price"));
+				pBean.setStock(rs.getInt("stock_no"));
 				productList.add(pBean);
 			}
 		} catch (ClassNotFoundException ex) {

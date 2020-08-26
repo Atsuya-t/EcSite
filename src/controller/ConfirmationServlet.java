@@ -54,6 +54,8 @@ public class ConfirmationServlet extends HttpServlet {
 			//明細テーブルを更新する。
 			mDao.setStatement(uBean.getUserId(), cBean.getProCd(), cBean.getSubTotal());
 		}
+		//ArrayList<ProductBean> productList = new ArrayList<ProductBean>();
+		session.setAttribute("product",null);
 		//カートの中身を破棄
 		cartList.clear();
 

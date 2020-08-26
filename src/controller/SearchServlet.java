@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,6 +22,42 @@ import model.ProductDao;
 public class SearchServlet extends HttpServlet {
 
 	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		String productDetails = (String) request.getParameter("form1");
+		System.out.println("productDetails" + productDetails);
+
+		//セッション継続
+		HttpSession session = request.getSession(false);
+		//セッション継続確認
+		if (session == null) {
+			System.out.println("セッションがきれました。");
+			//ログイン画面に遷移
+			RequestDispatcher rd = request.getRequestDispatcher("/jsp/Login.jsp");
+			rd.forward(request, response);
+			return;
+		}
+		ProductBean pBean = new ProductBean();
+		ProductDao pDao = new ProductDao();
+		CategoryDao cDao = new CategoryDao();
+
+		System.out.println("ProductDetails.jspに行くよ");
+		//productDetailsをもとに商品情報を取得
+		pBean = pDao.getProductDetails(Integer.parseInt(productDetails));
+		String catName = cDao.getCategoryName(pBean.getCatId());
+		//sessionオブジェクトに格納
+		session.setAttribute("productDetails", pBean);
+		//カテゴリー名requestオブジェクトに格納
+		request.setAttribute("catName", catName);
+
+		//商品詳細画面に遷移
+		RequestDispatcher rd = request.getRequestDispatcher("/jsp/ProductDetails.jsp");
+		rd.forward(request, response);
+		return;
+	}
+
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		System.out.println("SearchServlet開始");
@@ -32,7 +69,6 @@ public class SearchServlet extends HttpServlet {
 		System.out.println("productDetails" + productDetails);
 		ProductDao pDao = new ProductDao();
 		CategoryDao cDao = new CategoryDao();
-		ProductBean pBean = new ProductBean();
 
 		//セッション継続
 		HttpSession session = request.getSession(false);
@@ -61,28 +97,14 @@ public class SearchServlet extends HttpServlet {
 			rd.forward(request, response);
 			return;
 
-		} else if (productDetails != null) {
-			System.out.println("ProductDetails.jspに行くよ");
-			//productDetailsをもとに商品情報を取得
-			pBean = pDao.getProductDetails(Integer.parseInt(productDetails));
-			String catName = cDao.getCategoryName(pBean.getCatId());
-			//sessionオブジェクトに格納
-			session.setAttribute("productDetails", pBean);
-			//カテゴリー名requestオブジェクトに格納
-			request.setAttribute("catName", catName);
-
-			//商品詳細画面に遷移
-			RequestDispatcher rd = request.getRequestDispatcher("/jsp/ProductDetails.jsp");
-			rd.forward(request, response);
-			return;
-
 		} else {
 			//Search.jspから呼び出された時
 			System.out.println("Search.jspから来たよ");
 			request.setCharacterEncoding("UTF-8");
 			//検索情報取得
 			String key = request.getParameter("keyWord");
-			int cat = Integer.parseInt(request.getParameter("categoryId"));
+			String sCat=request.getParameter("categoryId");
+			int cat = Integer.parseInt(sCat);
 
 			System.out.println("keyword:" + key);
 			System.out.println("categoryid:" + cat);
@@ -92,9 +114,8 @@ public class SearchServlet extends HttpServlet {
 
 			//入力チェック
 			if (key.equals("") && cat == 0) {
-				request.setAttribute("err", "キーワードを入力または、カテゴリーを選択してください");
-				productList = null;
-
+				//全件取得
+				productList = pDao.all();
 			} else {
 
 				if (cat == 0) {
@@ -114,6 +135,10 @@ public class SearchServlet extends HttpServlet {
 				}
 
 			}
+			HashMap<String,String> searchMap = new HashMap<String,String>();
+			searchMap.put("key",key);
+			searchMap.put("cat",sCat);
+			session.setAttribute("search", searchMap);
 			session.setAttribute("product", productList);
 			//検索画面に遷移
 			RequestDispatcher rd = request.getRequestDispatcher("/jsp/Search.jsp");

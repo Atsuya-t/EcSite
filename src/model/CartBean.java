@@ -9,6 +9,7 @@ public class CartBean implements Serializable {
 	private String proName = "";
 	private int proPrice;
 	private int quantity;
+	private int stock;
 	private int subTotal;
 
 	public int getProCd() {
@@ -41,6 +42,14 @@ public class CartBean implements Serializable {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
 	}
 
 	public int getSubTotal() {

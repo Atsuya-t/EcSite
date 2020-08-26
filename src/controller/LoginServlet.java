@@ -26,9 +26,17 @@ public class LoginServlet extends HttpServlet {
 		//ログイン情報取得
 		String name = request.getParameter("loginCd");
 		String pass = request.getParameter("loginPw");
+		String account = request.getParameter("make");
 
 		System.out.println("logincd:" + name);
 		System.out.println("loginpw:" + pass);
+		System.out.println("account:" + account);
+
+		if(account != null) {
+			RequestDispatcher rd = request.getRequestDispatcher("/jsp/MakeAccount.jsp");
+			rd.forward(request, response);
+			return;
+		}
 
 		//入力チェック
 		if (name.equals("") || pass.equals("")) {
