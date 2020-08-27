@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.CartBean;
+import bean.CartBean;
+import bean.UserBean;
 import model.MeisaiDao;
 import model.ProductDao;
-import model.UserBean;
 
 @WebServlet("/confirmation")
 public class ConfirmationServlet extends HttpServlet {

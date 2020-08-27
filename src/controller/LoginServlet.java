@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.UserBean;
+import bean.UserBean;
 import model.UserDao;
 
 @WebServlet("/login")

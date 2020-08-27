@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import bean.UserBean;
+
 public class UserDao {
 
 	String url = "jdbc:mysql://localhost/ec_ans?useSSL=false";

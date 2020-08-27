@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import bean.CartBean;
+
 public class CalculationLogic {
 
 	//合計金額算出メソッド

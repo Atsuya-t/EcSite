@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.CategoryBean;
+import bean.CategoryBean;
+import bean.ProductBean;
 import model.CategoryDao;
-import model.ProductBean;
 import model.ProductDao;
 
 @WebServlet("/search")

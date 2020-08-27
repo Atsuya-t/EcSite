@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bean.CartBean;
+import bean.ProductBean;
 import model.CalculationLogic;
-import model.CartBean;
-import model.ProductBean;
 
 @WebServlet("/productDetails")
 public class ProductDetailsServlet extends HttpServlet {

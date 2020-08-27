@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="model.CartBean"%>
+<%@ page import="bean.CartBean"%>
 <%@ page import="java.util.ArrayList"%>
 
 <%
@@ -46,18 +46,7 @@ int tax = (int) session.getAttribute("tax");
 					<tr>
 						<td class="col-1" id="column2"><%=cBean.getProName()%></td>
 						<td class="col-1" id="column2"><%=cBean.getProPrice()%></td>
-						<td class="col-1" id="column2"><select name=<%=i%>>
-								<option value=<%=cBean.getQuantity()%> selected><%=cBean.getQuantity()%></option>
-								<%
-									for (int j = 1; j <= cBean.getStock(); j++) {
-								%>
-								<option value=<%=j%>>
-									<%=j%>
-								</option>
-								<%
-									}
-								%>
-						</select></td>
+						<td class="col-1" id="column2"><%=cBean.getQuantity()%></td>
 					</tr>
 					<%
 						}

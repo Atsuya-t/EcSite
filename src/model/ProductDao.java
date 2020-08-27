@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import bean.ProductBean;
+
 public class ProductDao {
 
 	String url = "jdbc:mysql://localhost/ec_ans?useSSL=false";
